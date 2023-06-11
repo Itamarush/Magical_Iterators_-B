@@ -260,7 +260,7 @@ using namespace ariel;
     {
         if(this->mgc != other.mgc)
         {
-            throw invalid_argument("Iterators are not of the same type");
+            throw runtime_error("Iterators are not of the same type");
         }
 
         this->mgc = other.mgc;
@@ -286,8 +286,7 @@ using namespace ariel;
     MagicalContainer::SideCrossIterator::SideCrossIterator(MagicalContainer& mgc)
     : mgc (&mgc)
     {
-        sort(mgc.AscendingContainer.begin(), mgc.AscendingContainer.end());
-        curr = mgc.AscendingContainer.begin();
+        curr = mgc.SideCrossContainer.begin();
     }
 
     MagicalContainer::SideCrossIterator::SideCrossIterator(const SideCrossIterator& other)
@@ -361,7 +360,7 @@ using namespace ariel;
     {
         if(this->mgc != other.mgc)
         {
-            throw invalid_argument("Iterators are not of the same type");
+            throw runtime_error("Iterators are not of the same type");
         }
 
         this->mgc = other.mgc;
@@ -386,8 +385,7 @@ using namespace ariel;
     MagicalContainer::PrimeIterator::PrimeIterator(MagicalContainer& mgc)
     : mgc(&mgc)
     {
-        sort(mgc.AscendingContainer.begin(), mgc.AscendingContainer.end());
-        curr = mgc.AscendingContainer.begin();
+        curr = mgc.PrimeContainer.begin();
         
     }
 
@@ -451,7 +449,7 @@ using namespace ariel;
 
     int MagicalContainer::PrimeIterator::operator*()
     {
-        if(this->curr == this->mgc->AscendingContainer.end())
+        if(this->curr == this->mgc->PrimeContainer.end())
         {
             throw runtime_error("Iterator is already at the end of the vector!");
         }
@@ -462,7 +460,7 @@ using namespace ariel;
     {
         if(this->mgc != other.mgc)
         {
-            throw invalid_argument("Iterators are not of the same type");
+            throw runtime_error("Iterators are not of the same type");
         }
 
         this->mgc = other.mgc;
