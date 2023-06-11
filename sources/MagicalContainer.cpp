@@ -60,16 +60,25 @@ using namespace ariel;
             {
                 AscendingContainer.push_back(element);
             }
-            
-            for (size_t i = 0; i < AscendingContainer.size(); i++)
+            else
             {
-                if (AscendingContainer[i] > element)
+                int isEntered = 0;
+                for (size_t i = 0; i < AscendingContainer.size(); i++)
                 {
-                    auto insertPos = AscendingContainer.begin()  + static_cast<std::vector<int>::difference_type>(i);
-                    AscendingContainer.insert(insertPos, element);
-                    i = AscendingContainer.size() + 1;
-                    break;
+                    if (AscendingContainer[i] > element)
+                    {
+                        auto insertPos = AscendingContainer.begin()  + static_cast<std::vector<int>::difference_type>(i);
+                        AscendingContainer.insert(insertPos, element);
+                        i = AscendingContainer.size() + 1;
+                        isEntered = 1;
+                        break;
+                    }
                 }
+                if (!isEntered)
+                {
+                    AscendingContainer.push_back(element);
+                }
+                
             }
         }
         else
@@ -96,15 +105,23 @@ using namespace ariel;
             {
                 SideCrossContainer.push_back(element);
             }
-
-            for (size_t i = 0; i < SideCrossContainer.size(); i++)
+            else
             {
-                if (SideCrossContainer[i] > element)
+                int isEntered = 0;
+                for (size_t i = 0; i < SideCrossContainer.size(); i++)
                 {
-                    auto insertPos = SideCrossContainer.begin()  + static_cast<std::vector<int>::difference_type>(i);
-                    SideCrossContainer.insert(insertPos, element);
-                    i = SideCrossContainer.size() + 1;
-                    break;
+                    if (SideCrossContainer[i] > element)
+                    {
+                        auto insertPos = SideCrossContainer.begin()  + static_cast<std::vector<int>::difference_type>(i);
+                        SideCrossContainer.insert(insertPos, element);
+                        i = SideCrossContainer.size() + 1;
+                        isEntered = 1;
+                        break;
+                    }
+                }
+                if (!isEntered)
+                {
+                    SideCrossContainer.push_back(element);
                 }
             }
         }
@@ -122,6 +139,23 @@ using namespace ariel;
                 std::cout << "Element " << element << " not found in the vector." << std::endl;
             }   
         }
+        std::sort(SideCrossContainer.begin(), SideCrossContainer.end());
+        std::vector<int> rearranged;
+        auto startOf = SideCrossContainer.begin();
+        auto endOf = SideCrossContainer.end() - 1;
+
+        while(startOf <= endOf)
+        {
+            rearranged.push_back(*startOf);
+
+            if(startOf != endOf)
+            {
+                rearranged.push_back(*endOf);
+            }
+            ++startOf;
+            --endOf;    
+        }
+        this->SideCrossContainer = rearranged;
     }
 
     void MagicalContainer::updatePrime(int element,int insertIt, int deleteIt)
@@ -257,8 +291,9 @@ using namespace ariel;
     }
 
     MagicalContainer::SideCrossIterator::SideCrossIterator(const SideCrossIterator& other)
+    : mgc(other.mgc)
     {
-
+        this->curr = this->mgc->SideCrossContainer.begin();
     }
 
     MagicalContainer::SideCrossIterator& MagicalContainer::SideCrossIterator::operator++()
@@ -315,7 +350,7 @@ using namespace ariel;
 
     int MagicalContainer::SideCrossIterator::operator*()
     {
-        if(this->curr == this->mgc->AscendingContainer.end())
+        if(this->curr == this->mgc->SideCrossContainer.end())
         {
             throw runtime_error("Iterator is already at the end of the vector!");
         }
@@ -357,8 +392,9 @@ using namespace ariel;
     }
 
     MagicalContainer::PrimeIterator::PrimeIterator(const PrimeIterator& other)
+    : mgc(other.mgc)
     {
-
+        this->curr = this->mgc->PrimeContainer.begin();
     }
 
     MagicalContainer::PrimeIterator& MagicalContainer::PrimeIterator::operator++()
